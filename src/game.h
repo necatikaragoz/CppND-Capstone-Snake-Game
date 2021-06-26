@@ -25,9 +25,13 @@ class Game {
   std::uniform_int_distribution<int> random_h;
 
   int score{0};
+  int mHighestScore;
 
   void PlaceFood();
   void Update();
-};
 
+  void UpdateHighestScore(int score);
+
+  void GetHighestScore() ;
+};
 #endif
