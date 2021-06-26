@@ -1,0 +1,8 @@
+NAME="Snake Game"
+VERSION="1.0"
+LANGUAGE="C++"
+PRETTY_NAME="Snake Game modified by Necati Karagoz"
+AUTHOR="NECATİ KARAGÖZ"
+SRC_URL="https://github.com/necatikaragoz/CppND-Capstone-Snake-Game.git"
+FORK_URL="https://github.com/udacity/CppND-Capstone-Snake-Game.git"
+HIGHEST_SCORE="0"
