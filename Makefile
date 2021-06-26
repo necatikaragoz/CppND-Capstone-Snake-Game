@@ -11,6 +11,7 @@ build:
 	cd build && \
 	cmake .. && \
 	make
+	cp ./src/score ./build
 
 .PHONY: debug
 debug:
@@ -18,6 +19,7 @@ debug:
 	cd build && \
 	cmake -DCMAKE_BUILD_TYPE=debug .. && \
 	make
+	cp ./src/score ./build
 
 
 .PHONY: run
