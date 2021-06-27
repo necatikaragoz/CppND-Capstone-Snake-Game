@@ -56,9 +56,9 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 #### Loops, Functions, I/O
 
-- [ ] The project demonstrates an understanding of C++ functions and control structures.
+- [x] The project demonstrates an understanding of C++ functions and control structures.
 
-- [ ] The project reads data from a file and process the data, or the program writes data to a file. 
+- [x] The project reads data from a file and process the data, or the program writes data to a file. 
 
 - [x] The project accepts user input and processes the input.
 
@@ -90,7 +90,7 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 - [ ] The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.
 
-- [ ] The project follows the Rule of 5.
+- [x] The project follows the Rule of 5.
 
 - [ ] The project uses move semantics to move data, instead of copying it, where possible.
 
