@@ -34,6 +34,9 @@ void LogScore::UpdateHighestScore(int score)
 {
   if(score > mHighestScore)
   {
+
+    mHighestScore = score;
+    
     string line;
     string key;
     string value;
@@ -98,7 +101,12 @@ void LogScore::UpdateHighestScore(int score)
   
 }
 
-void LogScore::GetHighestScore() 
+int LogScore::GetHighestScore() 
+{
+  return mHighestScore;
+}
+
+void LogScore::ReadHighestScoreFromfile() 
 { 
 
   string line;

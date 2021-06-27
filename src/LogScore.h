@@ -27,9 +27,13 @@ const std::string kNames[] {
 class LogScore
 {
 public:
+  
+  int GetHighestScore() ;
+
   void UpdateHighestScore(int score);
 
-  void GetHighestScore() ;
+  void ReadHighestScoreFromfile();
+  
 private:
 
   int mHighestScore;
