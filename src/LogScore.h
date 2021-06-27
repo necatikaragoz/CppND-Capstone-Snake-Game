@@ -1,3 +1,6 @@
+#ifndef LOGSCORE_H
+#define LOGSCORE_H
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -46,3 +49,6 @@ private:
 //GetHighestScore
 //GetScores
 //WriteScore
+
+
+#endif  /* End of LOGSCORE_H */

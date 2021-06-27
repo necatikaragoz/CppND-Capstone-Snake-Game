@@ -1,4 +1,7 @@
 
+#ifndef MESSAGE_QUEUE_H
+#define MESSAGE_QUEUE_H
+
 #include <queue>
 #include <iostream>
 #include <random>
@@ -19,3 +22,6 @@ private:
     std::condition_variable _cond;
     
 };
+
+
+#endif  /* End of MESSAGE_QUEUE_H */
