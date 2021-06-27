@@ -11,11 +11,6 @@ and place new food in the game if the food has been eaten by the snake.
 #include <iostream>
 #include "SDL.h"
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-
-using std::string;
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
@@ -23,7 +18,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
   PlaceFood();
-  GetHighestScore();
+
+  mpLogScore = std::make_unique<LogScore>();
+  
+  mpLogScore->GetHighestScore();
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -92,7 +90,7 @@ void Game::Update() {
   // Check if there's food over here
   if (food.x == new_x && food.y == new_y) {
     score++;
-    UpdateHighestScore(score);
+    mpLogScore->UpdateHighestScore(score);
     PlaceFood();
     // Grow snake and increase speed.
     snake.GrowBody();
@@ -104,93 +102,3 @@ int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
 
 
-const std::string kScorePath{"./score"};
-
-enum NamesEnum{
-  NE_Name,
-  NE_Version,
-  NE_Language,
-  NE_PrettyName,
-  NE_Author,
-  NE_SrcUrl,
-  NE_ForkUrl,
-  NE_HighestScore,
-  NE_LastEnumNo
-};
-
-const std::string kNames[] {
-"NAME" , "VERSION" , "LANGUAGE" , "PRETTY_NAME", "AUTHOR" , "SRC_URL" , "FORK_URL" , "HIGHEST_SCORE"
-};
-
-void Game::UpdateHighestScore(int score)
-{
-  if(score > mHighestScore)
-  {
-    string line;
-    string key;
-    string value;
-    std::ifstream filestream(kScorePath);
-
-    if (filestream.is_open()) {
-      while (std::getline(filestream, line)) {
-        std::replace(line.begin(), line.end(), ' ', '_');
-        std::replace(line.begin(), line.end(), '=', ' ');
-        std::replace(line.begin(), line.end(), '"', ' ');
-
-        std::istringstream linestream(line);
-        while (linestream >> key >> value) {
-
-          std::replace(value.begin(), value.end(), '_', ' ');
-          if (key == kNames[NE_HighestScore] ) {
-
-            std::ostringstream outlinestream(line);
-            outlinestream << key << "=" << score;
- 
-            std::cout << outlinestream.str();
-
-            
-          }
-        }
-      }
-    }
-    else{
-      std::cout << "file not found = " << std::endl;
-    }
-  }
-}
-
-void Game::GetHighestScore() 
-{ 
-
-  string line;
-  string key;
-  string value;
-  std::ifstream filestream(kScorePath);
-
-  mHighestScore = 0;
-
-  if (filestream.is_open()) {
-    while (std::getline(filestream, line)) {
-      std::replace(line.begin(), line.end(), ' ', '_');
-      std::replace(line.begin(), line.end(), '=', ' ');
-      std::replace(line.begin(), line.end(), '"', ' ');
-
-      std::istringstream linestream(line);
-      while (linestream >> key >> value) {
-
-        std::replace(value.begin(), value.end(), '_', ' ');
-        //std::cout << "key = " << key << " value =" << value << std::endl;
-        if (key == kNames[NE_HighestScore] ) {
-          std::replace(value.begin(), value.end(), '_', ' ');
-          //std::cout << "value = " << stoi(value) << std::endl;
-         mHighestScore =  stoi(value);
-        }
-      }
-    }
-  }
-  else{
-    std::cout << "file not found = " << std::endl;
-
-  }
-
-}

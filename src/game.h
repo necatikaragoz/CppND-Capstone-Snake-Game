@@ -6,6 +6,7 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "LogScore.h"
 
 class Game {
  public:
@@ -25,13 +26,11 @@ class Game {
   std::uniform_int_distribution<int> random_h;
 
   int score{0};
-  int mHighestScore;
 
   void PlaceFood();
   void Update();
 
-  void UpdateHighestScore(int score);
+  std::unique_ptr<LogScore> mpLogScore;
 
-  void GetHighestScore() ;
 };
 #endif
