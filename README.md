@@ -84,9 +84,9 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 #### Memory Management
 
-- [ ] The project makes use of references in function declarations.
+- [x] The project makes use of references in function declarations.
 
-- [ ] The project uses destructors appropriately.
+- [x] The project uses destructors appropriately.
 
 - [ ] The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.
 
@@ -94,7 +94,7 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 - [ ] The project uses move semantics to move data, instead of copying it, where possible.
 
-- [ ] The project uses smart pointers instead of raw pointers.
+- [x] The project uses smart pointers instead of raw pointers.
 
 Concurrency
 
