@@ -26,6 +26,6 @@
 
     void FoodCls::SetRectangle(SDL_Rect &rect)
     {
-        rect.x = mPoint.x;     
-        rect.y = mPoint.y; 
+        rect.x = mPoint.x * rect.w;     
+        rect.y = mPoint.y * rect.h;
     }

@@ -18,14 +18,12 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
-
+        
       Initialize();
 }
 
 void Game::Initialize()
 {
-  PlaceFood();
-
   mpLogScore = std::make_unique<LogScore>();
   
   mpLogScore->ReadHighestScoreFromfile();
@@ -36,6 +34,7 @@ void Game::Initialize()
     mFoods.push_back(FoodCls(static_cast<FoodCls::FoodType>(i) ) ); // For 
   }
 
+  PlaceFood();
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
