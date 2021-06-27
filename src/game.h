@@ -2,14 +2,22 @@
 #define GAME_H
 
 #include <random>
+#include <mutex>
+#include <condition_variable>
+#include <vector>
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
 #include "LogScore.h"
+#include "FoodCls.h"
 
 class Game {
  public:
+
+ //member variables
+
+ //member prototypes
   Game(std::size_t grid_width, std::size_t grid_height);
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
@@ -17,8 +25,10 @@ class Game {
   int GetSize() const;
 
  private:
+ //member variables
+
   Snake snake;
-  SDL_Point food;
+  //SDL_Point food;
 
   std::random_device dev;
   std::mt19937 engine;
@@ -27,10 +37,19 @@ class Game {
 
   int score{0};
 
+  std::unique_ptr<LogScore> mpLogScore;
+  std::mutex mfoodMutex;
+  std::condition_variable mConVar;
+  std::vector<FoodCls> mFoods;
+
+//member prototypes
+  int  RandomFoodFinder();
   void PlaceFood();
   void Update();
+  void Initialize();
+  void FoodThread();
+  bool CheckIntersection(int foodNo);
 
-  std::unique_ptr<LogScore> mpLogScore;
 
 };
 #endif
