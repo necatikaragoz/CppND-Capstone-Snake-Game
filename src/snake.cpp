@@ -47,13 +47,28 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
   // Add previous head location to vector
   body.push_back(prev_head_cell);
 
-  if (!growing) {
+  if (growing == Growing::kDelete) 
+  {
     // Remove the tail from the vector.
-    body.erase(body.begin());
-  } else {
-    growing = false;
+    body.clear();
+  } 
+  else if(growing == Growing::kReduce)
+  {
+    if(size > 1)
+    {
+      --size;
+    }
+  }
+  else if(growing == Growing::kGrowing)
+  {
+  //means wait for feed
+    growing = Growing::kNone;
     size++;
   }
+  else{
+    body.erase(body.begin());
+  }
+  
 
   // Check if the snake has died.
   for (auto const &item : body) {
@@ -63,7 +78,8 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
   }
 }
 
-void Snake::GrowBody() { growing = true; }
+void Snake::GrowBody() { growing = Growing::kGrowing; }
+void Snake::ReduceBody() { growing = Growing::kReduce; }
 
 // Inefficient method to check if cell is occupied by snake.
 bool Snake::SnakeCell(int x, int y) {
