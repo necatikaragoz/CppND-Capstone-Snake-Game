@@ -11,6 +11,7 @@
 #include "snake.h"
 #include "LogScore.h"
 #include "FoodCls.h"
+#include <thread>
 
 class Game {
  public:
@@ -38,7 +39,8 @@ class Game {
   int score{0};
 
   std::unique_ptr<LogScore> mpLogScore;
-  
+  std::unique_ptr<std::thread> mpFood_thread; 
+  std::unique_ptr<std::thread> mpHungry_thread;
   std::vector<FoodCls> mFoods;
 
 //member prototypes
@@ -50,6 +52,7 @@ class Game {
   void FoodThread();
   bool CheckIntersection(int foodNo);
   bool CheckFoodLocation(int x, int y, FoodCls::FoodType foodType);
+  void HungryThread();
 
 
 };

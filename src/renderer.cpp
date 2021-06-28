@@ -76,7 +76,7 @@ void Renderer::Render(Snake const snake, std::vector<FoodCls> &foods) {
   // Render snake's head
   block.x = static_cast<int>(snake.head_x) * block.w;
   block.y = static_cast<int>(snake.head_y) * block.h;
-  if (snake.alive) {
+  if (snake.Alive()) {
     //SDL_SetRenderDrawColor(sdl_renderer.get(), 0x00, 0x7A, 0xCC, 0xFF);
     SetColor(GameColor::HeadAlive);
   } else {

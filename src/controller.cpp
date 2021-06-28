@@ -12,7 +12,7 @@
 
 void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
                                  Snake::Direction opposite) const {
-  if (snake.direction != opposite || snake.size == 1) snake.direction = input;
+  if (snake.GetDirection() != opposite || snake.Size() == 1) snake.SetDirection(input);
   return;
 }
 

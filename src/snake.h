@@ -16,7 +16,11 @@ class Snake {
         head_y(grid_height / 2) {}
 
   void Update();
-
+  bool Alive() const { return alive; } 
+  float Speed() const { return speed; } 
+  int   Size() const { return size; } 
+  Direction   GetDirection() const { return direction; } 
+  void SetDirection(Direction dir)  { direction = dir; }
   void GrowBody();
   void ReduceBody();
   void Kill();
@@ -25,20 +29,23 @@ class Snake {
 
   Direction direction = Direction::kUp;
 
-  float speed{0.1f};
-  int size{1};
-  bool alive{true};
   float head_x;
   float head_y;
   std::vector<SDL_Point> body;
 
  private:
-  void UpdateHead();
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
+  int size{1};
+  float speed{0.1f};
+  bool alive{true};
   Growing growing{Growing::kNone};
   int grid_width;
   int grid_height;
+
+  void UpdateHead();
+  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+
+
 };
 
 #endif

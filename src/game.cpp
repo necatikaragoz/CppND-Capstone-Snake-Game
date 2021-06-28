@@ -47,8 +47,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
-    std::thread tFood(&Game::FoodThread, this);
-    tFood.detach();
+    mpFood_thread = std::make_unique<std::thread>(&Game::FoodThread, this);
+
+    mpHungry_thread = std::make_unique<std::thread>(&Game::HungryThread, this);
 
    // std::thread tHungry(&Game::, this, FoodCls::FT_HAZARDOUS);
     //tHazard.detach();
@@ -70,7 +71,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count, mpLogScore->GetHighestScore(), (snake.speed * 10));
+      renderer.UpdateWindowTitle(score, frame_count, mpLogScore->GetHighestScore(), (snake.Speed() * 10));
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -118,7 +119,10 @@ bool Game::CheckFoodLocation(int x, int y, FoodCls::FoodType foodType)
 
 void Game::Update() 
 {
-  if (!snake.alive) return;
+  if (!snake.Alive()) 
+  {
+    return;
+  }
 
   //first: snake location must be updated
   snake.Update();
@@ -169,12 +173,11 @@ void Game::Update()
 }
 
 int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }
+int Game::GetSize() const { return snake.Size(); }
 
 
 void Game::FoodThread()
 {
-
     auto begin  =  std::chrono::steady_clock::now();  //std::chrono::steady_clock::now();
      
     // random number generate
@@ -212,7 +215,10 @@ void Game::UpdateFood()
     mFoods[i].visible = false;
   }
 
-  PlaceFood(static_cast<FoodCls::FoodType>(RandomFoodFinder()) );
+  if(snake.Alive())
+  {
+    PlaceFood(static_cast<FoodCls::FoodType>(RandomFoodFinder()) );
+  }
   
 
 }
@@ -238,4 +244,11 @@ bool Game::CheckIntersection(int foodNo)
   }
   
   return false;
+}
+
+
+
+void Game::HungryThread()
+{
+
 }
