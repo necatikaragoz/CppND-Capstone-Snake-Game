@@ -48,8 +48,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   bool running = true;
 
     mpFood_thread = std::make_unique<std::thread>(&Game::FoodThread, this);
+    mpFood_thread.get()->detach();
 
     mpHungry_thread = std::make_unique<std::thread>(&Game::HungryThread, this);
+    mpHungry_thread.get()->detach();
 
    // std::thread tHungry(&Game::, this, FoodCls::FT_HAZARDOUS);
     //tHazard.detach();
