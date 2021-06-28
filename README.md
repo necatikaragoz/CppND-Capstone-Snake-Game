@@ -1,6 +1,15 @@
 # CPPND: Capstone Snake Game Example
 
-This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
+This game is upgraded version of the Snake Game has developed by Udacity. This game prepared for implement the knowledge of modern C++. You can find the rubric criteria checklist below. :smile:
+
+## What's new
+* New Food types are added.
+  * Feed (Yellow food) :increase the snake body by one and speed by 0.2
+  * Hazardous (Orange food)     : Decrease the snake body by one.
+  * 
+
+
+in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
 
 <img src="snake_game.gif"/>
 
@@ -52,7 +61,7 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 ### Compiling and Testing (All Rubric Points REQUIRED)
 
-- [ ] The submission must compile and run.
+- [x] The submission must compile and run.
 
 #### Loops, Functions, I/O
 
