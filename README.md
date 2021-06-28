@@ -98,7 +98,7 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 Concurrency
 
-- [ ] The project uses multithreading. 
+- [x] The project uses multithreading. 
 
 - [ ] A promise and future is used in the project.
 
