@@ -38,17 +38,20 @@ class Game {
   int score{0};
 
   std::unique_ptr<LogScore> mpLogScore;
-  std::mutex mfoodMutex;
-  std::condition_variable mConVar;
+  //std::vector<std::unique_ptr<std::mutex> > mvfoodMutex;
+  std::mutex mfoodMutex[FoodCls::FT_LAST_ENUM_NO];
+  
   std::vector<FoodCls> mFoods;
 
 //member prototypes
   int  RandomFoodFinder();
-  void PlaceFood();
+  void PlaceFood(FoodCls::FoodType foodType);
+  void UpdateFood(int foodThredNo);
   void Update();
   void Initialize();
-  void FoodThread();
+  void FoodThread(int foodThredNo);
   bool CheckIntersection(int foodNo);
+  bool CheckFoodLocation(int x, int y, FoodCls::FoodType foodType);
 
 
 };

@@ -36,6 +36,7 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+  
 }
 
 Renderer::~Renderer() {
@@ -55,12 +56,19 @@ void Renderer::Render(Snake const snake, std::vector<FoodCls> &foods) {
   SDL_RenderClear(sdl_renderer.get());
 
   // Render foods
-  //SDL_SetRenderDrawColor(sdl_renderer.get(), 0xFF, 0xCC, 0x00, 0xFF);
+
   SetColor(GameColor::FoodFeed);
   block.x = foods[FoodCls::FT_FEED].mPoint.x * block.w;
   block.y = foods[FoodCls::FT_FEED].mPoint.y * block.h;
-  //foods[FoodCls::FT_FEED].SetRectangle(block);
   SDL_RenderFillRect(sdl_renderer.get(), &block);
+
+  if(foods[FoodCls::FT_HAZARDOUS].visible)
+  {
+    SetColor(GameColor::Orangered);
+    block.x = foods[FoodCls::FT_HAZARDOUS].mPoint.x * block.w;
+    block.y = foods[FoodCls::FT_HAZARDOUS].mPoint.y * block.h;
+    SDL_RenderFillRect(sdl_renderer.get(), &block);
+  }
 
   // Render snake's body
   //SDL_SetRenderDrawColor(sdl_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
@@ -97,3 +105,4 @@ void Renderer::SetColor(GameColor::ColorCls color)
 {
   SDL_SetRenderDrawColor(sdl_renderer.get(), color.Red(), color.Green(), color.Blue(), color.Alpha() );
 }
+

@@ -54,21 +54,25 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) 
   } 
   else if(growing == Growing::kReduce)
   {
-    if(size > 1)
+    growing = Growing::kNone;
+    
+    if(body.size() >= 2)
     {
-      --size;
+      body.erase(body.begin());
+    }
+    if(body.size() >= 1)
+    {
+      body.erase(body.begin());
     }
   }
   else if(growing == Growing::kGrowing)
   {
   //means wait for feed
     growing = Growing::kNone;
-    size++;
   }
   else{
     body.erase(body.begin());
-  }
-  
+  }  
 
   // Check if the snake has died.
   for (auto const &item : body) {
