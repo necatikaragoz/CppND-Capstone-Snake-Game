@@ -3,6 +3,8 @@
 
 #include "SDL.h"
 #include <iostream>
+#include <mutex>
+#include <condition_variable>
 
 class FoodCls
 {
@@ -22,6 +24,8 @@ public:
     SDL_Point mPoint;
     FoodType  mType;
     bool visible;
+    
+    std::unique_ptr< std::condition_variable> mpConVar;
 
     // member protoypes
 
@@ -31,6 +35,8 @@ public:
 
     FoodCls(int x, int y, FoodType type);
 
+    void Initialize(FoodType type);
+
     SDL_Point GetPoint() {return mPoint;}
 
     FoodType GetType() {return mType;}
@@ -38,6 +44,11 @@ public:
     void SetPoints(int x, int y);
 
     void SetRectangle(SDL_Rect &rect);
+
+    void ClearFood()
+    {
+        visible = false;
+    }
     
 private:
 

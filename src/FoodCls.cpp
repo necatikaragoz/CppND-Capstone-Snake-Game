@@ -3,26 +3,32 @@
 
     FoodCls::FoodCls(FoodType type)
     {
-        mType = type;
-        visible = false;
+        Initialize(type);
     }
 
     FoodCls::FoodCls(SDL_Point point, FoodType type)
     {
         mPoint = point;
-        mType = type;
-        visible = false;
+        Initialize(type);
     }
 
     FoodCls::FoodCls(int x, int y, FoodType type)
     {
         mPoint.x = x;
         mPoint.y = y;
-        mType = type;
-        visible = false;
+        Initialize(type);
+
     }
 
-    void FoodCls::SetPoints(int x, int y) { mPoint.x = x; mPoint.y = y;}
+    void FoodCls::Initialize(FoodType type)
+    {
+        mType = type;
+        visible = false;
+
+        mpConVar = std::make_unique<std::condition_variable>();
+    }
+
+    void FoodCls::SetPoints(int x, int y) { mPoint.x = x; mPoint.y = y; visible = true; }
 
     void FoodCls::SetRectangle(SDL_Rect &rect)
     {
