@@ -63,7 +63,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count, mpLogScore->GetHighestScore());
+      renderer.UpdateWindowTitle(score, frame_count, mpLogScore->GetHighestScore(), (snake.speed * 10));
       frame_count = 0;
       title_timestamp = frame_end;
     }

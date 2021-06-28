@@ -87,8 +87,8 @@ void Renderer::Render(Snake const snake, std::vector<FoodCls> &foods) {
   SDL_RenderPresent(sdl_renderer.get());
 }
 
-void Renderer::UpdateWindowTitle(int score, int fps, int highestScore) {
-  std::string title{"Snake Score: " + std::to_string(score) + " HighestScore: " + std::to_string(highestScore)  + " FPS: " + std::to_string(fps) };
+void Renderer::UpdateWindowTitle(int score, int fps, int highestScore, float speed) {
+  std::string title{"Snake Score: " + std::to_string(score) + " -- HighestScore: " + std::to_string(highestScore) + " -- Speed: " + std::to_string(speed)   + " -- FPS: " + std::to_string(fps) };
   SDL_SetWindowTitle(sdl_window.get(), title.c_str());
 }
 

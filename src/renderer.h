@@ -17,7 +17,7 @@ class Renderer {
   ~Renderer();
 
   void Render(Snake const snake, std::vector<FoodCls> &food);
-  void UpdateWindowTitle(int score, int fps, int highestScore);
+  void UpdateWindowTitle(int score, int fps, int highestScore, float speed);
 
  private:
   std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> sdl_window;
