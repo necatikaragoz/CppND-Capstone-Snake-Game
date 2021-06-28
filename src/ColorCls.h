@@ -107,7 +107,7 @@ namespace GameColor
   static ColorCls Silver(0xC0, 0xC0, 0xC0, 0xFF);
   static ColorCls Pink(0xFF, 0xC0, 0xCB, 0xFF);
 
-  static ColorCls HeadAlive(Silver);
+  static ColorCls HeadAlive(Blue);
   static ColorCls HeadKill(Chocolate);
   static ColorCls SnakeBody(White);
   static ColorCls FoodFeed(Yellow);
