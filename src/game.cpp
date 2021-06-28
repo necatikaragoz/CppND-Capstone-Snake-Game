@@ -33,7 +33,6 @@ void Game::Initialize()
   for(int i = 0; i< FoodCls::FT_LAST_ENUM_NO; i++)
   {
     mFoods.push_back(FoodCls(static_cast<FoodCls::FoodType>(i) ) ); // For 
-    //mvfoodMutex.push_back(std::make_unique<std::mutex>()); // For 
   }
 
   PlaceFood(FoodCls::FT_FEED);
@@ -48,8 +47,11 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
-     std::thread hazard(&Game::FoodThread, this, FoodCls::FT_HAZARDOUS);
-    hazard.detach();
+    std::thread tFood(&Game::FoodThread, this);
+    tFood.detach();
+
+   // std::thread tHungry(&Game::, this, FoodCls::FT_HAZARDOUS);
+    //tHazard.detach();
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -93,8 +95,6 @@ void Game::PlaceFood(FoodCls::FoodType foodType) {
     if (CheckFoodLocation (x,y,foodType) && !snake.SnakeCell(x, y)) {
       mFoods[foodType].SetPoints(x,y);
 
-      std::cout << "placefood = " << foodType;
-
       return;
     }
   }
@@ -116,22 +116,24 @@ bool Game::CheckFoodLocation(int x, int y, FoodCls::FoodType foodType)
   return true;
 }
 
-void Game::Update() {
+void Game::Update() 
+{
   if (!snake.alive) return;
 
+  //first: snake location must be updated
   snake.Update();
 
   // Check if there's food over here
-  if (CheckIntersection(FoodCls::FT_FEED)) {
+  if (CheckIntersection(FoodCls::FT_FEED)) 
+  {
     score++;
     mpLogScore->UpdateHighestScore(score);
     PlaceFood(FoodCls::FT_FEED);
     // Grow snake and increase speed.
     snake.GrowBody();
-    snake.speed += 0.02;
-  }
-  
-  if(CheckIntersection(FoodCls::FT_HAZARDOUS))
+    snake.ChangeSpeed(0.02);
+  } 
+  else if(CheckIntersection(FoodCls::FT_HAZARDOUS))
   {
     if(score > 1)
     {
@@ -139,19 +141,38 @@ void Game::Update() {
     }
     snake.ReduceBody();
     mFoods[FoodCls::FT_HAZARDOUS].visible = false;
-    
-    //std::unique_lock<std::mutex> uniqueLock(mfoodMutex[FoodCls::FT_HAZARDOUS]);
-    //mFoods[FoodCls::FT_HAZARDOUS].mpConVar.get()->notify_one();
+  
+  }
+  else if(CheckIntersection(FoodCls::FT_COLD))
+  {
+    score++;
+    mpLogScore->UpdateHighestScore(score);
+    snake.GrowBody();
+    snake.ChangeSpeed(-0.04);
+    mFoods[FoodCls::FT_COLD].visible = false;
+  
+  }
+  else if(CheckIntersection(FoodCls::FT_HOT))
+  {
+    score++;
+    mpLogScore->UpdateHighestScore(score);
+    snake.GrowBody();
+    snake.ChangeSpeed(0.04);
+    mFoods[FoodCls::FT_HOT].visible = false;
+  }
+  else if(CheckIntersection(FoodCls::FT_KILL))
+  {
+    mFoods[FoodCls::FT_KILL].visible = false;
+    snake.Kill();
   }
 
-  //mFoods[FoodCls::FT_HAZARDOUS].mpConVar.get()->notify_one();
 }
 
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
 
 
-void Game::FoodThread(int foodThredNo)
+void Game::FoodThread()
 {
 
     auto begin  =  std::chrono::steady_clock::now();  //std::chrono::steady_clock::now();
@@ -174,31 +195,25 @@ void Game::FoodThread(int foodThredNo)
         // update time 
         begin = std::chrono::steady_clock::now();
         //update phase and send message
-        UpdateFood(foodThredNo);
+        UpdateFood();
 
         randomWaitMs = distr(engine);
       }
     }
-
-    //std::unique_lock<std::mutex> uniqueLock(mfoodMutex[foodThredNo]);
-    
-    /*while (true) {
-        mFoods[foodThredNo].mpConVar.get()->wait(uniqueLock);
-        PlaceFood(static_cast<FoodCls::FoodType>(foodThredNo) );
-    }*/
 }
 
 
-void Game::UpdateFood(int foodThredNo)
+void Game::UpdateFood()
 {
-  if(mFoods[foodThredNo].visible)
+  static int foodType = FoodCls::FT_HAZARDOUS;
+
+  for(int i = FoodCls::FT_HAZARDOUS ; i< FoodCls::FT_LAST_ENUM_NO; i++)
   {
-    mFoods[foodThredNo].visible = false;
+    mFoods[i].visible = false;
   }
-  else
-  {
-    PlaceFood(static_cast<FoodCls::FoodType>(foodThredNo) );
-  }
+
+  PlaceFood(static_cast<FoodCls::FoodType>(RandomFoodFinder()) );
+  
 
 }
 

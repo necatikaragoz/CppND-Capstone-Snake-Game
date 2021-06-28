@@ -36,6 +36,12 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+
+  mvFoodcolors.push_back(GameColor::FoodFeed);
+  mvFoodcolors.push_back(GameColor::FoodHazard);
+  mvFoodcolors.push_back(GameColor::FoodKill);
+  mvFoodcolors.push_back(GameColor::FoodCold);
+  mvFoodcolors.push_back(GameColor::FoodHot);
   
 }
 
@@ -56,19 +62,7 @@ void Renderer::Render(Snake const snake, std::vector<FoodCls> &foods) {
   SDL_RenderClear(sdl_renderer.get());
 
   // Render foods
-
-  SetColor(GameColor::FoodFeed);
-  block.x = foods[FoodCls::FT_FEED].mPoint.x * block.w;
-  block.y = foods[FoodCls::FT_FEED].mPoint.y * block.h;
-  SDL_RenderFillRect(sdl_renderer.get(), &block);
-
-  if(foods[FoodCls::FT_HAZARDOUS].visible)
-  {
-    SetColor(GameColor::Orangered);
-    block.x = foods[FoodCls::FT_HAZARDOUS].mPoint.x * block.w;
-    block.y = foods[FoodCls::FT_HAZARDOUS].mPoint.y * block.h;
-    SDL_RenderFillRect(sdl_renderer.get(), &block);
-  }
+  DrawFoods(block, foods);
 
   // Render snake's body
   //SDL_SetRenderDrawColor(sdl_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
@@ -106,3 +100,17 @@ void Renderer::SetColor(GameColor::ColorCls color)
   SDL_SetRenderDrawColor(sdl_renderer.get(), color.Red(), color.Green(), color.Blue(), color.Alpha() );
 }
 
+
+void Renderer::DrawFoods(SDL_Rect block, std::vector<FoodCls> &foods)
+{
+  for(int i = FoodCls::FT_FEED ; i< FoodCls::FT_LAST_ENUM_NO; i++)
+  {
+    if(foods[i].visible)
+   {
+        SetColor(mvFoodcolors.at(i));
+        block.x = foods[i].mPoint.x * block.w;
+        block.y = foods[i].mPoint.y * block.h;
+        SDL_RenderFillRect(sdl_renderer.get(), &block);
+   }
+  }
+}

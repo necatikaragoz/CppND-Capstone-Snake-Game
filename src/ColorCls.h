@@ -111,10 +111,10 @@ namespace GameColor
   static ColorCls HeadKill(Chocolate);
   static ColorCls SnakeBody(White);
   static ColorCls FoodFeed(Yellow);
-  static ColorCls FoodHazard(Orangered);
+  static ColorCls FoodHazard(Green);
   static ColorCls FoodKill(Red);
   static ColorCls FoodCold(Cyan);
-  static ColorCls FoodHot(Yellow);
+  static ColorCls FoodHot(Orangered);
 
 
 }
