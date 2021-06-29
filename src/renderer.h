@@ -11,6 +11,9 @@
 
 class Renderer {
  public:
+   // member variables
+
+   // member protoypes
 
   Renderer(const std::size_t screen_width, const std::size_t screen_height,
            const std::size_t grid_width, const std::size_t grid_height);
@@ -20,17 +23,20 @@ class Renderer {
   void UpdateWindowTitle(int score, int fps, int highestScore, float speed);
 
  private:
+  // member variables
+
   std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> sdl_window;
   std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> sdl_renderer;
-
-  void SetColor(GameColor::ColorCls color);
-  void DrawFoods(SDL_Rect block, std::vector<FoodCls> &foods);
 
   std::vector<GameColor::ColorCls> mvFoodcolors;
   const std::size_t screen_width;
   const std::size_t screen_height;
   const std::size_t grid_width;
   const std::size_t grid_height;
+
+   // member protoypes
+  void SetColor(GameColor::ColorCls color);
+  void DrawFoods(SDL_Rect block, std::vector<FoodCls> &foods);
 
 };
 

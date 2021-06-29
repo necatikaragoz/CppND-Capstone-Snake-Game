@@ -17,6 +17,11 @@ namespace GameColor
   {
 
     public: 
+
+    // member variables
+
+    // member protoypes
+
     ColorCls( Uint8 r, Uint8 g, Uint8 b,
                     Uint8 a ) : mRed(r), mGreen(g), mBlue(b), mAlpha(a)
                     {
@@ -85,10 +90,15 @@ namespace GameColor
     Uint8 Alpha() { return mAlpha; }
 
     private:
+
+    // member variables
     Uint8 mRed;
     Uint8 mGreen;
     Uint8 mBlue;
     Uint8 mAlpha;
+
+    // member protoypes
+    
   };
 
   

@@ -79,15 +79,15 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 - [x] Class constructors utilize member initialization lists.
 
-- [ ] Classes abstract implementation details from their interfaces.
+- [x] Classes abstract implementation details from their interfaces.
 
 - [x] Classes encapsulate behavior.
 
-- [ ] Classes follow an appropriate inheritance hierarchy.
+- [x] Classes follow an appropriate inheritance hierarchy.
 
-- [ ] Overloaded functions allow the same function to operate on different parameters.
+- [x] Overloaded functions allow the same function to operate on different parameters.
 
-- [ ] Derived class functions override virtual base class functions.
+- [x] Derived class functions override virtual base class functions.
 
 - [ ] Templates generalize functions in the project.
 

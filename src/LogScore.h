@@ -30,7 +30,9 @@ const std::string kNames[] {
 class LogScore
 {
 public:
-  
+  // member variables
+
+  // member protoypes
   int GetHighestScore() ;
 
   void UpdateHighestScore(int score);
@@ -39,16 +41,12 @@ public:
   
 private:
 
+  // member variables
+
   int mHighestScore;
 
+  // member protoypes
+
 };
-
-
-
-
-//GetHighestScore
-//GetScores
-//WriteScore
-
 
 #endif  /* End of LOGSCORE_H */

@@ -1,4 +1,9 @@
 
+/*
+  This file define the Food type and it's specs. 
+  This file holds the food unqie paramteres.
+*/
+
 #include <FoodCls.h>
 
     FoodCls::FoodCls(FoodType type)

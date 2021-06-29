@@ -32,4 +32,4 @@ class Animal {
   Growing growing{Growing::kNone};
 };
 
-#endif
+#endif /* End of ANIMAL_H */
