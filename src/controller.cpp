@@ -70,7 +70,7 @@ void Controller::MessageBoxOnPlaying()
   const SDL_MessageBoxButtonData buttons[] = {
       //{/* .flags, .buttonid, .text */ 0, 0, "no"},
       {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Yes"},
-      {SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "Exit teh Game"},
+      {SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "Exit the Game"},
       { 0, 3, "New Game"}
   };
 

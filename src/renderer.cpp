@@ -114,3 +114,27 @@ void Renderer::DrawFoods(SDL_Rect block, std::vector<FoodCls> &foods)
    }
   }
 }
+
+
+void Renderer::LoadFileOnTheScreen()
+{
+
+  SDL_Surface *pSurface  = SDL_GetWindowSurface(sdl_window.get());
+  SDL_Surface *pImage = SDL_LoadBMP("../image.bmp");
+
+    SDL_Rect block;
+    if (pImage == nullptr)
+    {
+      std::cout << "SDL could not load the image! SDL Error: " << SDL_GetError() << std::endl;
+    }
+    else
+    {
+      block.x = (screen_width - pImage->w) / 2;
+      block.y = (screen_height - pImage->h) / 2;
+
+      SDL_BlitSurface(pImage, NULL, pSurface, &block);
+      SDL_UpdateWindowSurface(sdl_window.get());
+    }
+
+    return;
+}

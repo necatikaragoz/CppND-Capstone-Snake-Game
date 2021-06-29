@@ -22,6 +22,8 @@ class Renderer {
   void Render(Snake const snake, std::vector<FoodCls> &food);
   void UpdateWindowTitle(int score, int fps, int highestScore, float speed);
 
+  void LoadFileOnTheScreen();  
+
  private:
   // member variables
 
