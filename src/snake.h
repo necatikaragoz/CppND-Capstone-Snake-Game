@@ -3,11 +3,11 @@
 
 #include <vector>
 #include "SDL.h"
+#include "Animal.h"
 
-class Snake {
+class Snake : public Animal{
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
-  enum class Growing { kNone, kDelete, kGrowing, kReduce};
 
   Snake(int grid_width, int grid_height)
       : grid_width(grid_width),
@@ -19,7 +19,7 @@ class Snake {
   bool Alive() const { return alive; } 
   float Speed() const { return speed; } 
   int   Size() const { return size; } 
-  Direction   GetDirection() const { return direction; } 
+  Direction  GetDirection() const { return direction; } 
   void SetDirection(Direction dir)  { direction = dir; }
   void GrowBody();
   void ReduceBody();
@@ -27,18 +27,14 @@ class Snake {
   bool SnakeCell(int x, int y);
   void ChangeSpeed(float spd);
 
-  Direction direction = Direction::kUp;
 
   float head_x;
   float head_y;
   std::vector<SDL_Point> body;
 
  private:
+  Direction direction = Direction::kUp;
 
-  int size{1};
-  float speed{0.1f};
-  bool alive{true};
-  Growing growing{Growing::kNone};
   int grid_width;
   int grid_height;
 
