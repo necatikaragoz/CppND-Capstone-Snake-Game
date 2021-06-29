@@ -1,40 +1,42 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <random>
-#include <mutex>
-#include <condition_variable>
-#include <vector>
-#include "SDL.h"
-#include "controller.h"
-#include "renderer.h"
-#include "snake.h"
-#include "LogScore.h"
-#include "FoodCls.h"
-#include <thread>
+#include <random> 
+#include <mutex> 
+#include <condition_variable>  
+#include <vector> 
+#include "SDL.h" 
+#include "controller.h" 
+#include "renderer.h" 
+#include "snake.h" 
+#include "LogScore.h" 
+#include "FoodCls.h" 
+#include <thread> 
 
-class Game {
- public:
-
+class Game { 
+ public: 
  //member variables
 
  //member prototypes
   Game(std::size_t grid_width, std::size_t grid_height);
   void Run(Controller &controller, Renderer &renderer,
-           std::size_t target_frame_duration);
-  int GetScore() const;
-  int GetSize() const;
+           std::size_t target_frame_duration); 
+  int GetScore() const; 
+  int GetSize() const; 
 
- private:
- //member variables
+  void GameThread(Controller &controller, Renderer &renderer,
+               std::size_t target_frame_duration); 
 
-  Snake snake;
-  //SDL_Point food;
+ private: 
+ //member variables 
 
-  std::random_device dev;
-  std::mt19937 engine;
-  std::uniform_int_distribution<int> random_w;
-  std::uniform_int_distribution<int> random_h;
+  Snake snake; 
+  Controller::PlayingStatus mStatus;
+ 
+  std::random_device dev; 
+  std::mt19937 engine; 
+  std::uniform_int_distribution<int> random_w; 
+  std::uniform_int_distribution<int> random_h; 
 
   int score{0};
 

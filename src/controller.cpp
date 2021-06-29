@@ -19,7 +19,7 @@ void Controller::ChangeDirection(Snake &snake, Snake::Direction input, Snake::Di
   return;
 }
 
-void Controller::HandleInput(bool &running, Snake &snake)
+void Controller::HandleInput(Controller::PlayingStatus &status, Snake &snake)
 {
 
   SDL_Event e;
@@ -27,7 +27,7 @@ void Controller::HandleInput(bool &running, Snake &snake)
   {
     if (e.type == SDL_QUIT)
     {
-      running = false;
+      status = PS_stop;
     }
     else if (e.type == SDL_KEYDOWN)
     {

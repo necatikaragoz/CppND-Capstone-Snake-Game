@@ -10,7 +10,9 @@
 class Controller {
  public:
 
-  void HandleInput(bool &running, Snake &snake) ;
+  enum PlayingStatus{PS_stop, PS_running};
+
+  void HandleInput(Controller::PlayingStatus &status, Snake &snake) ;
   
 
  private:
