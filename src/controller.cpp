@@ -5,38 +5,6 @@
 #include "SDL.h"
 #include "snake.h"
 
-
-template <typename T>
-T MessageQueue2<T>::receive()
-{
-    
-    // perform queue modification under the lock
-    std::unique_lock<std::mutex> uLock(_mutex);
-
-    _cond.wait(uLock, [this] { return !_messages.empty(); }); // pass unique lock to condition variable
-
-    // remove last vector element from queue
-    T msg = std::move(_messages.back());
-    _messages.pop_back();
-
-    return msg; // will not be copied due to return value optimization (RVO) in C++
-
-}
-
-template <typename T>
-void MessageQueue2<T>::send(T &&msg)
-{
-    // simulate some work
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-    // perform vector modification under the lock
-    std::lock_guard<std::mutex> uLock(_mutex);
-
-    // add vector to queue
-    _messages.push_back(std::move(msg));
-    _cond.notify_one(); // notify client after pushing new Vehicle into vector
-}
-
 /*
   These files define the Controller class. 
   This class handles keyboard input using the SDL libary, 
@@ -116,7 +84,7 @@ void Controller::UpdatePhase()
 
   if(SDL_PollEvent(&e))
   {
-    mMessageQueue.send(std::move(e) );
+   // mMessageQueue.send(std::move(e) );
   }
 }
 
