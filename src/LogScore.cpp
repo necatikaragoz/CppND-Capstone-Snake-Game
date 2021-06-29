@@ -52,8 +52,6 @@ void LogScore::UpdateHighestScore(int score)
           if (key == kNames[NE_HighestScore] ) {
 
             outlinestream << key << "=\""  << score << "\""<<"\n";
- 
-            std::cout << outlinestream.str();
 
             modification = true;
             

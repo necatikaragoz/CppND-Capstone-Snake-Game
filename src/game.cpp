@@ -152,7 +152,6 @@ void Game::Update(std::shared_ptr<Snake> pSnake)
   // Check if there's food over here
   if (CheckIntersection(FoodCls::FT_FEED)) 
   {
-    mpLogScore->UpdateHighestScore(mScore);
     PlaceFood(FoodCls::FT_FEED);
     // Grow snake and increase speed.
     pSnake.get()->GrowBody();
@@ -165,7 +164,6 @@ void Game::Update(std::shared_ptr<Snake> pSnake)
   }
   else if(CheckIntersection(FoodCls::FT_COLD))
   {
-    mpLogScore->UpdateHighestScore(mScore);
     pSnake.get()->GrowBody();
     pSnake.get()->ChangeSpeed(-0.04);
     mFoods[FoodCls::FT_COLD].visible = false;
@@ -173,7 +171,6 @@ void Game::Update(std::shared_ptr<Snake> pSnake)
   }
   else if(CheckIntersection(FoodCls::FT_HOT))
   {
-    mpLogScore->UpdateHighestScore(mScore);
     pSnake.get()->GrowBody();
     pSnake.get()->ChangeSpeed(0.04);
     mFoods[FoodCls::FT_HOT].visible = false;
@@ -185,6 +182,7 @@ void Game::Update(std::shared_ptr<Snake> pSnake)
   }
 
   mScore = pSnake.get()->Size();
+  mpLogScore->UpdateHighestScore(mScore);
 
 }
 
