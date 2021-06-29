@@ -39,8 +39,6 @@ void Game::Initialize()
   mpFood_thread = std::make_unique<std::thread>(&Game::FoodThread, this);
   mpFood_thread.get()->detach();
 
-  mpHungry_thread = std::make_unique<std::thread>(&Game::HungryThread, this);
-  mpHungry_thread.get()->detach();
 }
 
 void Game::Run(std::shared_ptr<Controller> pController, std::shared_ptr<Renderer> pRenderer,
@@ -259,11 +257,4 @@ bool Game::CheckIntersection(int foodNo)
   }
   
   return false;
-}
-
-
-
-void Game::HungryThread()
-{
-
 }
