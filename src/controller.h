@@ -12,14 +12,9 @@ class Controller {
 
   void HandleInput(bool &running, Snake &snake) ;
 
-  void ControllerThread();
-  void Initialize();
-
  private:
   void ChangeDirection(Snake &snake, Snake::Direction input,
                        Snake::Direction opposite);
-
-  void UpdatePhase();
     
   std::unique_ptr<std::thread> mpController_thread;
 };

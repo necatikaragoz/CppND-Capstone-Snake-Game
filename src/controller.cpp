@@ -17,20 +17,10 @@ void Controller::ChangeDirection(Snake &snake, Snake::Direction input, Snake::Di
   return;
 }
 
-
-void Controller::Initialize()
-{
-  mpController_thread = std::make_unique<std::thread>(&Controller::ControllerThread, this);
-  mpController_thread.get()->detach();
-}
-
-
 void Controller::HandleInput(bool &running, Snake &snake) 
 {
-  SDL_Event e = mMessageQueue.receive();
-  //int i = mMessageQueue.receive();
-  //SDL_Event e;
-  //while (SDL_PollEvent(&e)) 
+  SDL_Event e;
+  while (SDL_PollEvent(&e)) 
   {
     if (e.type == SDL_QUIT) {
       running = false;
@@ -62,29 +52,3 @@ void Controller::HandleInput(bool &running, Snake &snake)
     }
   }
 }
-
-
-void Controller::ControllerThread()
-{
-  //Check the time 
-  while(true)
-  {
-    // wait with 1 ms resolution
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    UpdatePhase();
-  }
-}
-
-
-void Controller::UpdatePhase()
-{
-  SDL_Event e;
-  e.type = SDL_FIRSTEVENT;
-  int i;
-
-  if(SDL_PollEvent(&e))
-  {
-   // mMessageQueue.send(std::move(e) );
-  }
-}
-
