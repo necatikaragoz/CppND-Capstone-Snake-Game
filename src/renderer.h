@@ -19,7 +19,7 @@ class Renderer {
            const std::size_t grid_width, const std::size_t grid_height);
   ~Renderer();
 
-  void Render(Snake const snake, std::vector<FoodCls> &food);
+  void Render(std::shared_ptr<Snake> const  pSnake, std::vector<FoodCls> &food);
   void UpdateWindowTitle(int score, int fps, int highestScore, float speed);
 
   void LoadFileOnTheScreen();  

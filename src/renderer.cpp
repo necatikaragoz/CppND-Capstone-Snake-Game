@@ -51,13 +51,12 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, std::vector<FoodCls> &foods) {
+void Renderer::Render(std::shared_ptr<Snake> const  pSnake, std::vector<FoodCls> &foods) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
 
   // Clear screen
-  //SDL_SetRenderDrawColor(sdl_renderer.get(), 0x1E, 0x1E, 0x1E, 0xFF);
   SetColor(GameColor::Dark);
   SDL_RenderClear(sdl_renderer.get());
 
@@ -65,18 +64,17 @@ void Renderer::Render(Snake const snake, std::vector<FoodCls> &foods) {
   DrawFoods(block, foods);
 
   // Render snake's body
-  //SDL_SetRenderDrawColor(sdl_renderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
   SetColor(GameColor::SnakeBody);
-  for (SDL_Point const &point : snake.body) {
+  for (SDL_Point const &point : pSnake.get()->body) {
     block.x = point.x * block.w;
     block.y = point.y * block.h;
     SDL_RenderFillRect(sdl_renderer.get(), &block);
   }
 
   // Render snake's head
-  block.x = static_cast<int>(snake.head_x) * block.w;
-  block.y = static_cast<int>(snake.head_y) * block.h;
-  if (snake.Alive()) {
+  block.x = static_cast<int>(pSnake.get()->head_x) * block.w;
+  block.y = static_cast<int>(pSnake.get()->head_y) * block.h;
+  if (pSnake.get()->Alive()) {
     //SDL_SetRenderDrawColor(sdl_renderer.get(), 0x00, 0x7A, 0xCC, 0xFF);
     SetColor(GameColor::HeadAlive);
   } else {

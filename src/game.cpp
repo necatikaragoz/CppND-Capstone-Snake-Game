@@ -15,8 +15,9 @@ and place new food in the game if the food has been eaten by the snake.
 #include <thread>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
-      engine(dev()),
+    : engine(dev()),
+      mGridWidth(grid_width),
+      mGridHeight(grid_height),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
         
@@ -35,8 +36,6 @@ void Game::Initialize()
     mFoods.push_back(FoodCls(static_cast<FoodCls::FoodType>(i) ) ); // For 
   }
 
-  PlaceFood(FoodCls::FT_FEED);
-
   mpFood_thread = std::make_unique<std::thread>(&Game::FoodThread, this);
   mpFood_thread.get()->detach();
 
@@ -46,94 +45,67 @@ void Game::Initialize()
 
 void Game::Run(std::shared_ptr<Controller> pController, std::shared_ptr<Renderer> pRenderer,
                std::size_t target_frame_duration) {
-  Uint32 title_timestamp = SDL_GetTicks();
-  Uint32 frame_start;
-  Uint32 frame_end;
-  Uint32 frame_duration;
-  int frame_count = 0;
 
-  mStatus = Controller::PS_running;
+  do
+  {
+    GameThread(pController, pRenderer, target_frame_duration);
 
-  while (mStatus == Controller::PS_running) {
-    frame_start = SDL_GetTicks();
-
-    // Input, Update, Render - the main game loop.
-    pController.get()->HandleInput(mStatus, snake);
-    Update();
-    pRenderer.get()->Render(snake, mFoods);
-
-    frame_end = SDL_GetTicks();
-
-    // Keep track of how long each loop through the input/update/render cycle
-    // takes.
-    frame_count++;
-    frame_duration = frame_end - frame_start;
-
-    // After every second, update the window title.
-    if (frame_end - title_timestamp >= 1000) {
-      pRenderer.get()->UpdateWindowTitle(score, frame_count, mpLogScore->GetHighestScore(), (snake.Speed() * 10));
-      frame_count = 0;
-      title_timestamp = frame_end;
-    }
-
-    // If the time for this frame is too small (i.e. frame_duration is
-    // smaller than the target ms_per_frame), delay the loop to
-    // achieve the correct frame rate.
-    if (frame_duration < target_frame_duration) {
-      SDL_Delay(target_frame_duration - frame_duration);
-    }
-  }
+  }while(mStatus == Controller::RS_restart);
   
 }
 
-void Game::GameThread(Controller &controller, Renderer &renderer,
+
+void Game::GameThread(std::shared_ptr<Controller> pController, std::shared_ptr<Renderer> pRenderer,
                std::size_t target_frame_duration) 
 {
-  Uint32 title_timestamp = SDL_GetTicks();
-  Uint32 frame_start;
-  Uint32 frame_end;
-  Uint32 frame_duration;
-  int frame_count = 0;
+    Uint32 title_timestamp = SDL_GetTicks();
+    Uint32 frame_start;
+    Uint32 frame_end;
+    Uint32 frame_duration;
+    int frame_count = 0;
 
-    mpFood_thread = std::make_unique<std::thread>(&Game::FoodThread, this);
-    mpFood_thread.get()->detach();
+    mStatus = Controller::PS_running;
 
-    mpHungry_thread = std::make_unique<std::thread>(&Game::HungryThread, this);
-    mpHungry_thread.get()->detach();
+    pSnake = std::make_shared<Snake>(mGridWidth, mGridHeight) ;
 
-   // std::thread tHungry(&Game::, this, FoodCls::FT_HAZARDOUS);
-    //tHazard.detach();
-  mStatus = Controller::PS_running;
+    PlaceFood(FoodCls::FT_FEED);
 
-  while (mStatus == Controller::PS_running) {
-    frame_start = SDL_GetTicks();
+    while(mStatus == Controller::PS_running) {
+      frame_start = SDL_GetTicks();
 
-    // Input, Update, Render - the main game loop.
-    controller.HandleInput(mStatus, snake);
-    Update();
-    renderer.Render(snake, mFoods);
+      // Input, Update, Render - the main game loop.
+      pController.get()->HandleInput(mStatus, pSnake);
 
-    frame_end = SDL_GetTicks();
+      if(mStatus != Controller::PS_running)
+      { 
+        break;
+      }
+      
+      Update(pSnake);
+      pRenderer.get()->Render(pSnake, mFoods);
 
-    // Keep track of how long each loop through the input/update/render cycle
-    // takes.
-    frame_count++;
-    frame_duration = frame_end - frame_start;
+      frame_end = SDL_GetTicks();
 
-    // After every second, update the window title.
-    if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count, mpLogScore->GetHighestScore(), (snake.Speed() * 10));
-      frame_count = 0;
-      title_timestamp = frame_end;
+      // Keep track of how long each loop through the input/update/render cycle
+      // takes.
+      frame_count++;
+      frame_duration = frame_end - frame_start;
+
+      // After every second, update the window title.
+      if (frame_end - title_timestamp >= 1000) {
+        pRenderer.get()->UpdateWindowTitle(mScore, frame_count, mpLogScore->GetHighestScore(), (pSnake.get()->Speed() * 10));
+        frame_count = 0;
+        title_timestamp = frame_end;
+      }
+
+      // If the time for this frame is too small (i.e. frame_duration is
+      // smaller than the target ms_per_frame), delay the loop to
+      // achieve the correct frame rate.
+      if (frame_duration < target_frame_duration) {
+        SDL_Delay(target_frame_duration - frame_duration);
+      }
     }
 
-    // If the time for this frame is too small (i.e. frame_duration is
-    // smaller than the target ms_per_frame), delay the loop to
-    // achieve the correct frame rate.
-    if (frame_duration < target_frame_duration) {
-      SDL_Delay(target_frame_duration - frame_duration);
-    }
-  }
 }
 
 
@@ -145,7 +117,7 @@ void Game::PlaceFood(FoodCls::FoodType foodType) {
     // Check that the location is not occupied by a snake item before placing
     // food.
 
-    if (CheckFoodLocation (x,y,foodType) && !snake.SnakeCell(x, y)) {
+    if (CheckFoodLocation (x,y,foodType) && !pSnake.get()->SnakeCell(x, y)) {
       mFoods[foodType].SetPoints(x,y);
 
       return;
@@ -169,63 +141,57 @@ bool Game::CheckFoodLocation(int x, int y, FoodCls::FoodType foodType)
   return true;
 }
 
-void Game::Update() 
+void Game::Update(std::shared_ptr<Snake> pSnake) 
 {
-  if (!snake.Alive()) 
+  if (!pSnake.get()->Alive()) 
   {
     return;
   }
 
   //first: snake location must be updated
-  snake.Update();
+  pSnake.get()->Update();
 
   // Check if there's food over here
   if (CheckIntersection(FoodCls::FT_FEED)) 
   {
-    score++;
-    mpLogScore->UpdateHighestScore(score);
+    mpLogScore->UpdateHighestScore(mScore);
     PlaceFood(FoodCls::FT_FEED);
     // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.ChangeSpeed(0.02);
+    pSnake.get()->GrowBody();
+    pSnake.get()->ChangeSpeed(0.02);
   } 
   else if(CheckIntersection(FoodCls::FT_HAZARDOUS))
-  {
-    if(score > 1)
-    {
-      score--;
-    }
-    snake.ReduceBody();
+  {    
+    pSnake.get()->ReduceBody();
     mFoods[FoodCls::FT_HAZARDOUS].visible = false;
-  
   }
   else if(CheckIntersection(FoodCls::FT_COLD))
   {
-    score++;
-    mpLogScore->UpdateHighestScore(score);
-    snake.GrowBody();
-    snake.ChangeSpeed(-0.04);
+    mpLogScore->UpdateHighestScore(mScore);
+    pSnake.get()->GrowBody();
+    pSnake.get()->ChangeSpeed(-0.04);
     mFoods[FoodCls::FT_COLD].visible = false;
   
   }
   else if(CheckIntersection(FoodCls::FT_HOT))
   {
-    score++;
-    mpLogScore->UpdateHighestScore(score);
-    snake.GrowBody();
-    snake.ChangeSpeed(0.04);
+    mpLogScore->UpdateHighestScore(mScore);
+    pSnake.get()->GrowBody();
+    pSnake.get()->ChangeSpeed(0.04);
     mFoods[FoodCls::FT_HOT].visible = false;
   }
   else if(CheckIntersection(FoodCls::FT_KILL))
   {
     mFoods[FoodCls::FT_KILL].visible = false;
-    snake.Kill();
+    pSnake.get()->Kill();
   }
+
+  mScore = pSnake.get()->Size();
 
 }
 
-int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.Size(); }
+int Game::GetScore() const { return mScore; }
+int Game::GetSize() const { return mScore;}
 
 
 void Game::FoodThread()
@@ -267,12 +233,10 @@ void Game::UpdateFood()
     mFoods[i].visible = false;
   }
 
-  if(snake.Alive())
+  if(pSnake.get()->Alive())
   {
     PlaceFood(static_cast<FoodCls::FoodType>(RandomFoodFinder()) );
   }
-  
-
 }
 
 int Game::RandomFoodFinder()
@@ -286,12 +250,11 @@ int Game::RandomFoodFinder()
 bool Game::CheckIntersection(int foodNo)
 {        
   //Check that snake eat a food or not
-  int new_x = static_cast<int>(snake.head_x);
-  int new_y = static_cast<int>(snake.head_y);
+  int new_x = static_cast<int>(pSnake.get()->head_x);
+  int new_y = static_cast<int>(pSnake.get()->head_y);
 
   if( mFoods[foodNo].visible && (mFoods[foodNo].mPoint.x == new_x) && (mFoods[foodNo].mPoint.y == new_y) )
   {
-    
     return true;
   }
   

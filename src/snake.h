@@ -4,6 +4,7 @@
 #include <vector>
 #include "SDL.h"
 #include "Animal.h"
+#include <iostream>
 
 class Snake : public Animal{
  public:
@@ -13,12 +14,17 @@ class Snake : public Animal{
       : grid_width(grid_width),
         grid_height(grid_height),
         head_x(grid_width / 2),
-        head_y(grid_height / 2) {}
+        head_y(grid_height / 2) {
+        }
+
+  ~Snake()
+  {
+  }
 
   void Update();
   bool Alive() const { return alive; } 
   float Speed() const { return speed; } 
-  int   Size() const { return size; } 
+  int   Size() const { return body.size(); } 
   Direction  GetDirection() const { return direction; } 
   void SetDirection(Direction dir)  { direction = dir; }
   void GrowBody();
@@ -26,6 +32,8 @@ class Snake : public Animal{
   void Kill();
   bool SnakeCell(int x, int y);
   void ChangeSpeed(float spd);
+
+  void ResetSnake();
 
 
   float head_x;

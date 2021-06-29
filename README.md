@@ -5,7 +5,7 @@ This game is upgraded version of the Snake Game has developed by Udacity. This g
 ## What's new
 * New Food types are added.
   * Feed (Yellow food)     : Increase the snake body by one and speed by 0.2
-  * Hazardous (Orange food): Decrease the snake body by one.
+  * Hazardous (Green food): Decrease the snake body by one.
   * Kill      (red food)   : Kill the snake.
   * Cold      (cyan food)  : Increase the snake body by one and decrease the speed by 0.2
   * Hot       (Orange food): Increase the snake body by one increase the speed by 0.4

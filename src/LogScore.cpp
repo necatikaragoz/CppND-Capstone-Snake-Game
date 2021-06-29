@@ -12,22 +12,6 @@
 #include <cstdio>
 
 
-
-//Constructor
-    //CheckScorefileIsExist
-        //get scores
-//Destructor
-
-//GetHighestScore
-    //ReadFromFile
-
-//GetScores
-//WriteScore
-
-/*
-
-*/
-
 using std::string;
 
 void LogScore::UpdateHighestScore(int score)

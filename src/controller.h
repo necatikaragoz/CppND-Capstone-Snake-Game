@@ -10,19 +10,20 @@
 class Controller {
  public:
 
-  enum PlayingStatus{PS_stop, PS_running};
+  enum PlayingStatus{PS_stop, PS_running, PS_exit, RS_restart};
 
-  void HandleInput(Controller::PlayingStatus &status, Snake &snake) ;
+  void HandleInput(Controller::PlayingStatus &status, std::shared_ptr<Snake> pSnake) ;
   
 
  private:
 
   std::unique_ptr<std::thread> mpController_thread;
 
-  void ChangeDirection(Snake &snake, Snake::Direction input,
+  void ChangeDirection(std::shared_ptr<Snake> pSnake, Snake::Direction input,
                        Snake::Direction opposite);
 
-  void MessageBoxOnPlaying();  
+  void MessageBoxOnPlaying(Controller::PlayingStatus &status);  
+  void MessageBoxOnKill(Controller::PlayingStatus &status);
 
   
 };

@@ -23,6 +23,5 @@ int main() {
 
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << pGame.get()->GetScore() << "\n";
-  std::cout << "Size: " << pGame.get()->GetSize() << "\n";
   return 0;
 }
