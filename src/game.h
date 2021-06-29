@@ -19,7 +19,7 @@ class Game {
 
  //member prototypes
   Game(std::size_t grid_width, std::size_t grid_height);
-  void Run(Controller &controller, Renderer &renderer,
+  void Run(std::shared_ptr<Controller> pController, std::shared_ptr<Renderer> pRenderer,
            std::size_t target_frame_duration); 
   int GetScore() const; 
   int GetSize() const; 

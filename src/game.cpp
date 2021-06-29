@@ -36,9 +36,15 @@ void Game::Initialize()
   }
 
   PlaceFood(FoodCls::FT_FEED);
+
+  mpFood_thread = std::make_unique<std::thread>(&Game::FoodThread, this);
+  mpFood_thread.get()->detach();
+
+  mpHungry_thread = std::make_unique<std::thread>(&Game::HungryThread, this);
+  mpHungry_thread.get()->detach();
 }
 
-void Game::Run(Controller &controller, Renderer &renderer,
+void Game::Run(std::shared_ptr<Controller> pController, std::shared_ptr<Renderer> pRenderer,
                std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
@@ -46,29 +52,15 @@ void Game::Run(Controller &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
 
-    mpFood_thread = std::make_unique<std::thread>(&Game::FoodThread, this);
-    mpFood_thread.get()->detach();
-
-    mpHungry_thread = std::make_unique<std::thread>(&Game::HungryThread, this);
-    mpHungry_thread.get()->detach();
-
-   // std::thread tHungry(&Game::, this, FoodCls::FT_HAZARDOUS);
-    //tHazard.detach();
-
-  //std::unique_ptr<std::thread> gameThread = std::make_unique<std::thread>(&Game::GameThread, this, controller, renderer, target_frame_duration);
-
-  //gameThread.get()->detach();
-
-
   mStatus = Controller::PS_running;
 
   while (mStatus == Controller::PS_running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(mStatus, snake);
+    pController.get()->HandleInput(mStatus, snake);
     Update();
-    renderer.Render(snake, mFoods);
+    pRenderer.get()->Render(snake, mFoods);
 
     frame_end = SDL_GetTicks();
 
@@ -79,7 +71,7 @@ void Game::Run(Controller &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count, mpLogScore->GetHighestScore(), (snake.Speed() * 10));
+      pRenderer.get()->UpdateWindowTitle(score, frame_count, mpLogScore->GetHighestScore(), (snake.Speed() * 10));
       frame_count = 0;
       title_timestamp = frame_end;
     }
