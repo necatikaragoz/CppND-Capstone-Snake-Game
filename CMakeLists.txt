@@ -15,3 +15,6 @@ include_directories(${SDL2_INCLUDE_DIRS} src)
 add_executable(SnakeGame src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/snake.cpp src/LogScore.cpp src/MessageQueue.cpp src/FoodCls.cpp src/ColorCls.cpp)
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 target_link_libraries(SnakeGame ${SDL2_LIBRARIES})
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/score
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
