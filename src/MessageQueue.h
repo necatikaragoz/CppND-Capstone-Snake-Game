@@ -1,12 +1,8 @@
+#ifndef MESSAGEQUEUE_H
+#define MESSAGEQUEUE_H
 
-#ifndef MESSAGE_QUEUE_H
-#define MESSAGE_QUEUE_H
-
-#include <queue>
-#include <iostream>
-#include <random>
-#include <deque>
 #include <mutex>
+#include <deque>
 #include <condition_variable>
 
 template <class T>
@@ -23,5 +19,4 @@ private:
     
 };
 
-
-#endif  /* End of MESSAGE_QUEUE_H */
+#endif /* End of MESSAGEQUEUE_H */
