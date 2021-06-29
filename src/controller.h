@@ -11,12 +11,18 @@ class Controller {
  public:
 
   void HandleInput(bool &running, Snake &snake) ;
+  
 
  private:
+
+  std::unique_ptr<std::thread> mpController_thread;
+
   void ChangeDirection(Snake &snake, Snake::Direction input,
                        Snake::Direction opposite);
-    
-  std::unique_ptr<std::thread> mpController_thread;
+
+  void MessageBoxOnPlaying();  
+
+  
 };
 
 #endif /* End of CONTROLLER_H */

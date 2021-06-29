@@ -4,9 +4,12 @@ This game is upgraded version of the Snake Game has developed by Udacity. This g
 
 ## What's new
 * New Food types are added.
-  * Feed (Yellow food) :increase the snake body by one and speed by 0.2
-  * Hazardous (Orange food)     : Decrease the snake body by one.
-  * 
+  * Feed (Yellow food)     : Increase the snake body by one and speed by 0.2
+  * Hazardous (Orange food): Decrease the snake body by one.
+  * Kill      (red food)   : Kill the snake.
+  * Cold      (cyan food)  : Increase the snake body by one and decrease the speed by 0.2
+  * Hot       (Orange food): Increase the snake body by one increase the speed by 0.4
+
 
 
 in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
@@ -49,6 +52,31 @@ In this project, you can build your own C++ application or extend this Snake gam
 3. Compile: `cmake .. && make`
 4. Run it: `./SnakeGame`.
 
+
+## Code structure
+
+The code is organized in following modules:
+
+
+| class name | Purpose  |
+|------------|----------|
+| Controller | Interact with users, let users use keyboard to control the snake in the game. |
+| Game       | Game class stores the state in the game, running in loops til end. |
+| User       | Basic information about the user and storing the the score. |
+| Render     | render the game to the screen. |
+| Snake      | contains attributes to keep track of the Snake speed, size, and location. |
+
+## How to Play a Game
+
+| Key | Action |
+| --- | --- |
+| UP | turn up |
+| RIGHT | turn right |
+| LEFT  | turn left |
+| DOWN | turn down  |
+| P | Pause and exit|
+| Escape | Pause and exit|
+
 ## New Features
 ## Rubric Criteria 
 ###  README
@@ -89,7 +117,7 @@ In this project, you can build your own C++ application or extend this Snake gam
 
 - [x] Derived class functions override virtual base class functions.
 
-- [ ] Templates generalize functions in the project.
+- [x] Templates generalize functions in the project.
 
 #### Memory Management
 

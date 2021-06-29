@@ -89,6 +89,12 @@ namespace GameColor
     Uint8 Blue() { return mBlue; }
     Uint8 Alpha() { return mAlpha; }
 
+    static SDL_MessageBoxColor BoxColor(const ColorCls &source)
+    {
+      SDL_MessageBoxColor s = {source.mRed, source.mGreen, source.mBlue};
+      return s;
+    }
+
     private:
 
     // member variables
