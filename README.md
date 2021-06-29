@@ -1,24 +1,19 @@
 # CPPND: Capstone Snake Game Example
 
-This game is upgraded version of the Snake Game has developed by Udacity. This game prepared for implement the knowledge of modern C++. You can find the rubric criteria checklist below. :smile:
+This game is upgraded version of the Snake Game has developed by Udacity for [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The game prepared for implement the knowledge of modern C++. You can find the rubric criteria checklist below. The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
 
 ## What's new
+* The code is rewritten with modern c++ principles.
+* Pop-Ups are added for restart, pause and exit functionality.
 * New Food types are added.
-  * Feed (Yellow food)     : Increase the snake body by one and speed by 0.2
-  * Hazardous (Green food): Decrease the snake body by one.
-  * Kill      (red food)   : Kill the snake.
-  * Cold      (cyan food)  : Increase the snake body by one and decrease the speed by 0.2
-  * Hot       (Orange food): Increase the snake body by one increase the speed by 0.4
+  * Feed     : Increase the snake body by one and speed by 0.2 <img src="images/Feed.png"/>
+  * Hazardous: Decrease the snake body by one. <img src="images/Hazard.png"/>
+  * Kill     : Kill the snake. <img src="images/Kill.png"/>
+  * Cold     : Increase the snake body by one and decrease the speed by 0.2 <img src="images/Cold.png"/>
+  * Hot      : Increase the snake body by one increase the speed by 0.4 <img src="images/Hot.png"/>
 
 
-
-in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
-
-<img src="snake_game.gif"/>
-
-The Capstone Project gives you a chance to integrate what you've learned throughout this program. This project will become an important part of your portfolio to share with current and future colleagues and employers.
-
-In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
+<img src="images/snake_game.gif"/>
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -65,6 +60,11 @@ The code is organized in following modules:
 | User       | Basic information about the user and storing the the score. |
 | Render     | render the game to the screen. |
 | Snake      | contains attributes to keep track of the Snake speed, size, and location. |
+| ColorCls   | Define color of the objects.  |
+| Animal     | Pure abstract base class of Snake class   |
+| FoodCls    | Holds the Food specs    |
+| LogScore   | Write and Read stream to a file  |
+
 
 ## How to Play a Game
 
@@ -77,7 +77,6 @@ The code is organized in following modules:
 | P | Pause and exit|
 | Escape | Pause and exit|
 
-## New Features
 ## Rubric Criteria 
 ###  README
 - [x] A README with instructions is included with the project
